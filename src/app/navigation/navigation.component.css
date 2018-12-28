@@ -1,0 +1,15 @@
+:host {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 0 0 20px;
+  box-shadow: 2px 1px 3px 0px black;
+}
+
+.container {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  padding: 1%;
+}

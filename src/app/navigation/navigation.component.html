@@ -1,0 +1,3 @@
+<div class="container" *ngFor='let anchor of anchors$ | async'>
+  <a href='{{anchor.link}}'  [ngStyle]="{'font-weight': (anchor.isCurrent === true) ? 'bold' : 'normal'}">{{anchor.displayName}}</a>
+</div>
