@@ -19,15 +19,15 @@ export class VflAnchorDirective implements OnInit {
 
   ngOnInit() {
     if (this.el.nativeElement.id) {
-      this.addNewAnchor();
+      this.addNewAnchor(this.el.nativeElement);
     }
   }
 
   /**
    * Add new anchor to the service
    */
-  private addNewAnchor() {
-    const newID = this.el.nativeElement.id;
-    this.anchorService.add(newID, this.displayName, this.el.nativeElement.offsetTop);
+  private addNewAnchor(nativeElement: any) {
+    const newID = nativeElement.id;
+    this.anchorService.add(newID, this.displayName, nativeElement.offsetTop);
   }
 }
