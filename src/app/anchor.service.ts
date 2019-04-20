@@ -50,10 +50,12 @@ export class AnchorService {
    */
   checkCurrentPosition(scrollPositionY: number) {
     const tmpAnchors = this.dataSource.getValue();
-    const tmpAnchor = tmpAnchors.find(item => (this.getAnchor(item, scrollPositionY)) );
+    const tmpAnchor = tmpAnchors.find(item =>
+      this.getAnchor(item, scrollPositionY)
+    );
 
     // reset
-    tmpAnchors.forEach(item => item.isCurrent = false);
+    tmpAnchors.forEach(item => (item.isCurrent = false));
 
     if (tmpAnchor) {
       tmpAnchor.isCurrent = true;
@@ -77,7 +79,10 @@ export class AnchorService {
    * @param scrollPositionY  Documents scroll height
    */
   private getAnchor(item: VflAnchor, scrollPositionY: number): boolean {
-    if ((scrollPositionY <= item.nextPositionY || item.nextPositionY === 0) && scrollPositionY >= item.postionY) {
+    if (
+      (scrollPositionY <= item.nextPositionY || item.nextPositionY === 0) &&
+      scrollPositionY >= item.postionY
+    ) {
       return true;
     } else {
       return false;

@@ -1,31 +1,48 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { AnchorService } from '../anchor.service';
 import { VflAnchor } from '../vfl-anchor';
-import { Observable, fromEvent } from 'rxjs';
+import { Observable, fromEvent, Subscription } from 'rxjs';
 
 /**
- * Example Component for a navigation bar to display anchors and highlight current
+ * Example Component for a navigation bar to display anchors and highlight the current
  */
 @Component({
   selector: 'vflNavigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
 
-  private scrollEvent$;
+  private scrollEventSubscription: Subscription;
   anchors$: Observable<VflAnchor[]>;
 
   constructor(private anchorService: AnchorService, private el: ElementRef) {
     this.anchors$ = this.anchorService.anchors;
 
-    this.scrollEvent$ = fromEvent(document,
-      'scroll').subscribe((e: any) => {
-        this.checkScrollPosition(e.target.scrollingElement.clientHeight + e.target.scrollingElement.scrollTop);
-      });
+    this.subscribeToScrollEvent();
   }
 
+
   ngOnInit() {
+  }
+
+  /**
+   * Unsubsribe on destroy
+   */
+  ngOnDestroy() {
+    if (this.scrollEventSubscription) {
+      this.scrollEventSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Subscribe to scroll event
+   */
+  private subscribeToScrollEvent() {
+    this.scrollEventSubscription = fromEvent(document, 'scroll').subscribe((e: any) => {
+      const scrollingElement = e.target.scrollingElement;
+      this.checkScrollPosition(scrollingElement.clientHeight + scrollingElement.scrollTop);
+    });
   }
 
   /**
